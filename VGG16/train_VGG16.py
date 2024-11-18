@@ -12,8 +12,7 @@ import copy
 # Define a single transform for both training and validation (no data augmentation)
 transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    transforms.Resize((224, 224))
+    transforms.Normalize((0.507, 0.487, 0.441), (0.267, 0.256, 0.276))
 ])
 
 # Load CIFAR-100 dataset
@@ -31,7 +30,7 @@ val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=32, shuffle=Fal
 
 # Define the model, loss function, optimizer, and scheduler
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = models.alexnet(num_classes=100).to(device)
+model = models.vgg16(num_classes=100).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4)
 
@@ -49,7 +48,7 @@ best_val_loss = float('inf')
 best_model_wts = copy.deepcopy(model.state_dict())
 epochs_no_improve = 0
 
-num_epochs = 30
+num_epochs = 20
 total_start_time = time.time()
 
 # Training loop

@@ -41,7 +41,7 @@ def main():
     model = modify_alexnet()
 
     # Load model weights (replace 'epoch5' or 'epoch20' as needed)
-    model.load_state_dict(torch.load('saved_models/alexnet_epoch5.pth'))
+    model.load_state_dict(torch.load('best_model.pth'))
 
     test_model(model, test_loader)
 
