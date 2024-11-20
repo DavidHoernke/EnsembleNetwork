@@ -1,0 +1,1 @@
+python .\Res18\train_res18.py -s Res18_model.pth -e 60 -b 128

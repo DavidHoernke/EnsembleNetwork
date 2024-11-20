@@ -8,6 +8,20 @@ from torchvision import datasets, transforms, models
 import time
 import matplotlib.pyplot as plt
 import copy
+import argparse
+
+# Argument parser for handling command-line arguments
+argParser = argparse.ArgumentParser()
+argParser.add_argument('-s', metavar='state', type=str, default="model.pt", help='Path to save model state (.pth)')
+argParser.add_argument('-e', metavar='epochs', type=int, default=30, help='Number of epochs [default: 30]')
+argParser.add_argument('-b', metavar='batch size', type=int, default=32, help='Batch size [default: 32]')
+
+args = argParser.parse_args()
+
+# Set parameters from arguments or use defaults
+save_file = args.s
+num_epochs = args.e
+batch_size = args.b
 
 # Define a single transform for both training and validation (no data augmentation)
 transform = transforms.Compose([
@@ -25,8 +39,8 @@ train_dataset = Subset(full_train_dataset, train_indices)
 val_dataset = Subset(full_train_dataset, val_indices)
 
 # Create data loaders for training and validation
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=True)
-val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=32, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
 # Define the model, loss function, optimizer, and scheduler
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -48,7 +62,6 @@ best_val_loss = float('inf')
 best_model_wts = copy.deepcopy(model.state_dict())
 epochs_no_improve = 0
 
-num_epochs = 20
 total_start_time = time.time()
 
 # Training loop

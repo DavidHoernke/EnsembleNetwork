@@ -1,0 +1,3 @@
+python .\Res18\test_ResNet18.py -m .\Res18\best_model.pth
+python .\VGG16\test_VGG16.py -m .\VGG16\best_model.pth
+python .\AlexNet\test_AlexNet.py -m .\AlexNet\best_model.pth

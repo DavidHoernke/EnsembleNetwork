@@ -3,6 +3,13 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.nn as nn
 from torchvision.models import resnet18
+import argparse
+
+# Argument parser to handle command-line arguments
+parser = argparse.ArgumentParser(description="Test ResNet18 on CIFAR-100")
+parser.add_argument("-m", "--model", type=str, required=True, help="Path to the model checkpoint file (.pth)")
+args = parser.parse_args()
+
 
 # Step 1: Load the CIFAR-100 test dataset
 transform = transforms.Compose([
@@ -17,12 +24,14 @@ testloader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=Fa
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = resnet18(pretrained=False)
 model.fc = nn.Linear(model.fc.in_features, 100)  # Adjust for CIFAR-100 output classes
+model.load_state_dict(torch.load(args.model, map_location=device))
 model = model.to(device)
-
-# Load the saved model checkpoint (update the path to your checkpoint)
-checkpoint_path = 'model_epoch_5.pth'
-model.load_state_dict(torch.load(checkpoint_path, map_location=device))
 model.eval()
+
+# Load the saved model checkpoint (update the path to your checkpoint) this is outdated
+# checkpoint_path = 'model_epoch_5.pth'
+# model.load_state_dict(torch.load(checkpoint_path, map_location=device))
+# model.eval()
 
 # Step 3: Evaluate the model for top-1 and top-5 accuracy
 correct_top1 = 0

@@ -1,0 +1,1 @@
+python .\VGG16\train_VGG16.py -s VGG16_model.pth -e 25 -b 32

@@ -9,6 +9,20 @@ import copy
 import matplotlib.pyplot as plt
 import torch.backends.cudnn as cudnn
 from torch.cuda.amp import GradScaler, autocast
+import argparse
+
+# Argument parser for handling command-line arguments
+argParser = argparse.ArgumentParser()
+argParser.add_argument('-s', metavar='state', type=str, default="model.pt", help='Path to save model state (.pth)')
+argParser.add_argument('-e', metavar='epochs', type=int, default=30, help='Number of epochs [default: 30]')
+argParser.add_argument('-b', metavar='batch size', type=int, default=32, help='Batch size [default: 32]')
+
+args = argParser.parse_args()
+
+# Set parameters from arguments or use defaults
+save_file = args.s
+num_epochs = args.e
+batch_size = args.b
 
 # Set seeds for reproducibility
 torch.manual_seed(42)

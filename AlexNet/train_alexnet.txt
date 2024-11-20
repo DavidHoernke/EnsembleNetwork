@@ -1,0 +1,1 @@
+python .\AlexNet\train_AlexNet.py -s alexnet_model.pth -e 20 -b 32
